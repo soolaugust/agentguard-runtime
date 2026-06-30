@@ -110,7 +110,7 @@ AgentGuard Runtime is alpha software. It currently provides:
 - Receipt-based metrics scorecard.
 - LangGraph-style pre-tool-call example.
 
-See `docs/architecture.md` for the runtime boundary, layer model, core objects, and long-term architecture. See `docs/metrics.md` for the measurement system that keeps the project tied to accepted value instead of activity. See `docs/stop-building-agents.md` for the project narrative.
+See `docs/architecture.md` for the runtime boundary, layer model, core objects, and long-term architecture. See `docs/metrics.md` for the measurement system that keeps the project tied to accepted value instead of activity. See `docs/example-report.md` for concrete CLI output. See `docs/stop-building-agents.md` for the project narrative.
 
 Planned next steps:
 
