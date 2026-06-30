@@ -16,6 +16,11 @@ agentguard report \
 agentguard scorecard \
   --agent examples/agent.yaml \
   --receipts /tmp/agentguard-example/receipts.jsonl
+
+agentguard summary \
+  --agent examples/agent.yaml \
+  --receipts /tmp/agentguard-example/receipts.jsonl \
+  --output .agentguard/reports/example-summary.md
 ```
 
 The sample tool call proposes a GitHub issue comment on `langchain-ai/langgraph#8026`. The policy marks `github.comment_issue` as a high-risk mutating action, so the action is not executed automatically.
@@ -112,6 +117,10 @@ Interpretation:
 - `control_state: review_heavy` means the runtime is currently creating review load rather than automatic execution.
 
 This scorecard answers: is the agent useful to operate, or is it creating too much review burden/noise?
+
+## Local Markdown summary
+
+For local review, use `agentguard summary --output .agentguard/reports/example-summary.md`. This writes a human-readable report with a verdict, governance table, scorecard table, and interpretation bullets. It is the fastest way to inspect whether an agent is useful or just creating review burden.
 
 ## What this example does not prove
 

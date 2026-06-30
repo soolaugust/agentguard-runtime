@@ -1,5 +1,5 @@
-from agentguard_runtime.core import ExecutionReceipt
-from agentguard_runtime.metrics import build_scorecard
+from agentguard_runtime.core import ExecutionReceipt, GovernanceReport
+from agentguard_runtime.metrics import build_scorecard, render_markdown_summary
 
 
 def _receipt(status, evidence_score=0.8, cost=0.1):
@@ -57,3 +57,25 @@ def test_scorecard_flags_review_heavy():
     )
 
     assert scorecard.control_state == "review_heavy"
+
+
+def test_markdown_summary_is_human_readable():
+    report = GovernanceReport(
+        agent="repo-agent",
+        alive=True,
+        value_state="measurable",
+        risk_state="approval_gated",
+        receipt_count=1,
+        approval_required_count=1,
+        blocked_count=0,
+        total_cost_usd=0.012,
+        evidence_score_avg=0.8,
+    )
+    scorecard = build_scorecard("repo-agent", [_receipt("pending_approval", cost=0.012)])
+
+    summary = render_markdown_summary(report, scorecard)
+
+    assert "# AgentGuard Summary — repo-agent" in summary
+    assert "## Verdict" in summary
+    assert "Approval burden rate" in summary
+    assert "review-heavy" in summary

@@ -1,7 +1,7 @@
 """AgentGuard Runtime: reliability and governance primitives for AI agents."""
 
 from agentguard_runtime.adapters import GovernedToolRunner, from_openai_style_tool_call
-from agentguard_runtime.metrics import MetricsScorecard, build_scorecard
+from agentguard_runtime.metrics import MetricsScorecard, build_scorecard, render_markdown_summary
 from agentguard_runtime.schema import (
     validate_action_receipt,
     validate_approval_event,
@@ -30,6 +30,7 @@ __all__ = [
     "open_receipt_store",
     "MetricsScorecard",
     "build_scorecard",
+    "render_markdown_summary",
     "validate_action_receipt",
     "validate_approval_event",
     "validate_governance_report",

@@ -13,7 +13,7 @@ from agentguard_runtime.core import (
     load_agent_spec,
     make_receipt,
 )
-from agentguard_runtime.metrics import build_scorecard
+from agentguard_runtime.metrics import build_scorecard, render_markdown_summary
 from agentguard_runtime.stores import open_receipt_store
 
 
@@ -52,6 +52,21 @@ def cmd_scorecard(args: argparse.Namespace) -> int:
     receipts = open_receipt_store(args.receipts, args.store_format).read_all()
     scorecard = build_scorecard(spec.name, receipts)
     print(json.dumps(scorecard.to_dict(), ensure_ascii=False, indent=2))
+    return 0
+
+
+def cmd_summary(args: argparse.Namespace) -> int:
+    spec = load_agent_spec(args.agent)
+    receipts = open_receipt_store(args.receipts, args.store_format).read_all()
+    report = build_report(spec, receipts)
+    scorecard = build_scorecard(spec.name, receipts)
+    summary = render_markdown_summary(report, scorecard)
+    if args.output:
+        output_path = Path(args.output)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(summary, encoding="utf-8")
+    else:
+        print(summary, end="")
     return 0
 
 
@@ -96,6 +111,18 @@ def build_parser() -> argparse.ArgumentParser:
         help="Receipt store format",
     )
     scorecard.set_defaults(func=cmd_scorecard)
+
+    summary = sub.add_parser("summary", help="Render a human-readable Markdown report.")
+    summary.add_argument("--agent", required=True, help="Path to agent.yaml")
+    summary.add_argument("--receipts", required=True, help="Receipt store")
+    summary.add_argument(
+        "--store-format",
+        choices=("jsonl", "sqlite"),
+        default="jsonl",
+        help="Receipt store format",
+    )
+    summary.add_argument("--output", help="Write Markdown summary to this path")
+    summary.set_defaults(func=cmd_summary)
     return parser
 
 
