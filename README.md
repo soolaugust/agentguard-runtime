@@ -1,5 +1,7 @@
 # AgentGuard Runtime
 
+[简体中文](README.zh-CN.md)
+
 AgentGuard Runtime is a small reliability and governance layer for AI agents. It sits before tool execution and answers five production questions:
 
 1. Is this agent allowed to call this tool?
