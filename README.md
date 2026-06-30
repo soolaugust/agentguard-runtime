@@ -106,7 +106,7 @@ AgentGuard Runtime is alpha software. It currently provides:
 - JSONL and SQLite receipt stores.
 - LangGraph-style pre-tool-call example.
 
-See `docs/architecture.md` for the runtime boundary, layer model, core objects, and long-term architecture. See `docs/stop-building-agents.md` for the project narrative.
+See `docs/architecture.md` for the runtime boundary, layer model, core objects, and long-term architecture. See `docs/metrics.md` for the measurement system that keeps the project tied to accepted value instead of activity. See `docs/stop-building-agents.md` for the project narrative.
 
 Planned next steps:
 

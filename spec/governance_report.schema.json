@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentguard.dev/spec/governance_report.schema.json",
+  "title": "AgentGuard Governance Report",
+  "description": "A summary of governed agent action receipts for one agent and period.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "agent",
+    "alive",
+    "value_state",
+    "risk_state",
+    "receipt_count",
+    "approval_required_count",
+    "blocked_count",
+    "total_cost_usd",
+    "evidence_score_avg",
+    "generated_at"
+  ],
+  "properties": {
+    "agent": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "alive": {
+      "type": "boolean"
+    },
+    "value_state": {
+      "type": "string",
+      "enum": [
+        "no_receipts",
+        "measurable",
+        "over_budget",
+        "weak_evidence",
+        "measuring_control",
+        "measuring_value",
+        "valuable",
+        "noisy",
+        "too_expensive",
+        "too_risky"
+      ]
+    },
+    "risk_state": {
+      "type": "string",
+      "enum": ["unknown", "controlled", "approval_gated", "blocked_actions"]
+    },
+    "receipt_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "approval_required_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "blocked_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "total_cost_usd": {
+      "type": "number",
+      "minimum": 0
+    },
+    "evidence_score_avg": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

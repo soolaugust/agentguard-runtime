@@ -149,7 +149,7 @@ Receipts are the foundation for audit, replay, cost analysis, and value measurem
 }
 ```
 
-The report is intentionally coarse in v0.1. The goal is to make value measurable before adding dashboards.
+The report is intentionally coarse in v0.1. The goal is to make value measurable before adding dashboards. The full measurement model is defined in `docs/metrics.md`; features should improve accepted value, reduce unsafe actions, reduce review burden, reduce cost per accepted action, improve evidence quality, or improve audit completeness.
 
 ## Decision flow
 

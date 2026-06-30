@@ -8,7 +8,9 @@ AgentGuard Runtime should grow from a small action gate into an operations layer
 - `agent.yaml` policy model.
 - Evidence scoring and target denylist.
 - Execution modes: `allow`, `dry_run`, `require_approval`, `block`.
-- JSONL receipts and governance report.
+- JSONL and SQLite receipts and governance report.
+- Action receipt and governance report schemas.
+- Metrics system for control/value scorecards.
 
 ## v0.2 — Framework adapters
 
@@ -20,7 +22,6 @@ AgentGuard Runtime should grow from a small action gate into an operations layer
 ## v0.3 — Stronger audit trail
 
 - Optional receipt signing.
-- SQLite receipt store.
 - Policy bundle format.
 - Redaction rules for secrets and sensitive targets.
 

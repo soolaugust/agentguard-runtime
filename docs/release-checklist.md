@@ -10,7 +10,9 @@ Use this checklist before publishing AgentGuard Runtime to GitHub or PyPI.
 - [ ] `.github/workflows/ci.yml` runs tests and CLI smoke checks.
 - [ ] `docs/research.md` cites real public demand signals.
 - [ ] `docs/architecture.md` defines the runtime boundary and core objects.
+- [ ] `docs/metrics.md` defines how value, risk, cost, review burden, and evidence quality are measured.
 - [ ] `spec/action_receipt.schema.json` has valid and invalid fixtures.
+- [ ] `spec/governance_report.schema.json` has a valid fixture.
 - [ ] Private dogfood has been run against non-toy local actions, but private scenarios are not committed.
 - [ ] No private paths, tokens, company names, or local-only assumptions remain.
 

@@ -42,7 +42,7 @@ A useful agent should improve over time on metrics like:
 - Evidence quality trend.
 - Rollback or correction rate.
 
-This is why AgentGuard starts with receipts. Receipts turn isolated actions into an operational dataset.
+This is why AgentGuard starts with receipts and a metrics system. Receipts turn isolated actions into an operational dataset; metrics keep the project focused on accepted value rather than activity.
 
 ## Receipts before dashboards
 

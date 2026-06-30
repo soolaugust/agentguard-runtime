@@ -1,0 +1,12 @@
+{
+  "agent": "repo-maintainer-agent",
+  "alive": true,
+  "value_state": "measurable",
+  "risk_state": "approval_gated",
+  "receipt_count": 128,
+  "approval_required_count": 37,
+  "blocked_count": 9,
+  "total_cost_usd": 4.82,
+  "evidence_score_avg": 0.78,
+  "generated_at": "2026-06-30T00:00:00+00:00"
+}

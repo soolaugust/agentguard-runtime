@@ -75,8 +75,13 @@ def validate_json_schema(data: Any, schema: dict[str, Any], path: str = "$") -> 
 
 
 def validate_action_receipt(receipt: dict[str, Any], schema_path: str | Path | None = None) -> list[str]:
-    schema_file = Path(schema_path) if schema_path else _default_schema_path()
+    schema_file = Path(schema_path) if schema_path else _default_schema_path("action_receipt.schema.json")
     return validate_json_schema(receipt, load_json(schema_file))
+
+
+def validate_governance_report(report: dict[str, Any], schema_path: str | Path | None = None) -> list[str]:
+    schema_file = Path(schema_path) if schema_path else _default_schema_path("governance_report.schema.json")
+    return validate_json_schema(report, load_json(schema_file))
 
 
 def require_valid_action_receipt(receipt: dict[str, Any], schema_path: str | Path | None = None) -> None:
@@ -85,8 +90,8 @@ def require_valid_action_receipt(receipt: dict[str, Any], schema_path: str | Pat
         raise SchemaValidationError("; ".join(errors))
 
 
-def _default_schema_path() -> Path:
-    return Path(__file__).resolve().parents[2] / "spec" / "action_receipt.schema.json"
+def _default_schema_path(name: str) -> Path:
+    return Path(__file__).resolve().parents[2] / "spec" / name
 
 
 def _check_type(value: Any, expected: str) -> bool:
