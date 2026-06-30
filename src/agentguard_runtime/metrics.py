@@ -80,7 +80,13 @@ def build_scorecard(agent: str, receipts: list[ExecutionReceipt]) -> MetricsScor
     )
 
 
-def render_markdown_summary(report: GovernanceReport, scorecard: MetricsScorecard) -> str:
+def render_markdown_summary(
+    report: GovernanceReport,
+    scorecard: MetricsScorecard,
+    language: str = "en",
+) -> str:
+    if language == "zh":
+        return _render_markdown_summary_zh(report, scorecard)
     verdict = _verdict(scorecard)
     lines = [
         f"# AgentGuard Summary — {scorecard.agent}",
@@ -130,6 +136,55 @@ def render_markdown_summary(report: GovernanceReport, scorecard: MetricsScorecar
     return "\n".join(lines) + "\n"
 
 
+def _render_markdown_summary_zh(report: GovernanceReport, scorecard: MetricsScorecard) -> str:
+    lines = [
+        f"# AgentGuard 摘要报告 — {scorecard.agent}",
+        "",
+        f"生成时间：`{scorecard.generated_at}`",
+        "",
+        "## 结论",
+        "",
+        _verdict_zh(scorecard),
+        "",
+        "## 治理报告",
+        "",
+        "| 字段 | 数值 |",
+        "| --- | --- |",
+        f"| 是否有数据 | `{report.alive}` |",
+        f"| 价值状态 | `{_state_label_zh(report.value_state)}` |",
+        f"| 风险状态 | `{_state_label_zh(report.risk_state)}` |",
+        f"| 收据数量 | `{report.receipt_count}` |",
+        f"| 需要审批 | `{report.approval_required_count}` |",
+        f"| 已阻断 | `{report.blocked_count}` |",
+        f"| 总成本 | `${report.total_cost_usd:.6f}` |",
+        f"| 平均证据分 | `{report.evidence_score_avg:.3f}` |",
+        "",
+        "## 指标看板",
+        "",
+        "| 指标 | 数值 |",
+        "| --- | --- |",
+        f"| 提议动作数 | `{scorecard.proposed_actions}` |",
+        f"| 已执行 | `{scorecard.executed_count}` |",
+        f"| Dry-run | `{scorecard.dry_run_count}` |",
+        f"| 待审批 | `{scorecard.approval_required_count}` |",
+        f"| 已阻断 | `{scorecard.blocked_count}` |",
+        f"| 失败 | `{scorecard.failed_count}` |",
+        f"| 审批负担率 | `{scorecard.approval_burden_rate:.1%}` |",
+        f"| 阻断率 | `{scorecard.blocked_action_rate:.1%}` |",
+        f"| 平均证据质量 | `{scorecard.evidence_quality_avg:.3f}` |",
+        f"| 控制状态 | `{_state_label_zh(scorecard.control_state)}` |",
+        "",
+        "## 这说明什么",
+        "",
+        *_interpretation_zh(scorecard),
+        "",
+        "## 这不能证明什么",
+        "",
+        "这份 v0.1 报告只能证明 AgentGuard 已经在衡量运行时控制面，不能证明业务价值。要证明业务价值，还需要接入审批事件和结果事件。",
+    ]
+    return "\n".join(lines) + "\n"
+
+
 def _verdict(scorecard: MetricsScorecard) -> str:
     if scorecard.control_state == "no_data":
         return "No receipts yet. The agent is not measurable."
@@ -157,3 +212,52 @@ def _interpretation(scorecard: MetricsScorecard) -> list[str]:
     if scorecard.blocked_action_rate >= 0.5:
         items.append("- Block rate is high; inspect whether policies are protecting you or the agent is proposing too many bad actions.")
     return items
+
+
+def _verdict_zh(scorecard: MetricsScorecard) -> str:
+    if scorecard.control_state == "no_data":
+        return "还没有收据数据，当前 Agent 不可衡量。"
+    if scorecard.control_state == "weak_evidence":
+        return "动作证据不足。提高证据质量之前，不建议提升自动化等级。"
+    if scorecard.control_state == "noisy":
+        return "大量动作被阻断。需要收紧上游提示词、权限范围或工具访问策略。"
+    if scorecard.control_state == "review_heavy":
+        return "Agent 已被运行时控制住，但审批负担偏高。自动执行前应先提高证据质量或缩小高风险动作范围。"
+    return "Agent 正在产生可治理的动作，控制指标可接受。下一步应继续采集审批和结果数据。"
+
+
+def _interpretation_zh(scorecard: MetricsScorecard) -> list[str]:
+    if scorecard.proposed_actions == 0:
+        return ["- 没有动作进入运行时边界。"]
+    items = [
+        f"- `{scorecard.proposed_actions}` 个提议动作进入了运行时边界。",
+        f"- `{scorecard.approval_required_count}` 个动作需要审批，占全部提议动作的 `{scorecard.approval_burden_rate:.1%}`。",
+        f"- `{scorecard.blocked_count}` 个动作被阻断，占全部提议动作的 `{scorecard.blocked_action_rate:.1%}`。",
+        f"- 平均证据质量为 `{scorecard.evidence_quality_avg:.3f}`，取值范围是 0 到 1。",
+        f"- 已记录总成本为 `${scorecard.total_cost_usd:.6f}`。",
+    ]
+    if scorecard.approval_burden_rate >= 0.5:
+        items.append("- 审批负担偏高；对于高风险动作这是可以接受的，但还不能算高效自动化。")
+    if scorecard.blocked_action_rate >= 0.5:
+        items.append("- 阻断率偏高；需要判断这是策略在保护系统，还是 Agent 上游提出了太多无效动作。")
+    return items
+
+
+def _state_label_zh(state: str) -> str:
+    return {
+        "no_data": "无数据",
+        "measurable": "可衡量",
+        "over_budget": "超预算",
+        "weak_evidence": "证据不足",
+        "measuring_control": "正在衡量控制面",
+        "measuring_value": "正在衡量价值",
+        "valuable": "有价值",
+        "noisy": "噪声偏高",
+        "too_expensive": "成本过高",
+        "too_risky": "风险过高",
+        "unknown": "未知",
+        "controlled": "已受控",
+        "approval_gated": "审批门控",
+        "blocked_actions": "存在阻断动作",
+        "review_heavy": "审批负担偏高",
+    }.get(state, state)

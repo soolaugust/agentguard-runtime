@@ -60,7 +60,7 @@ def cmd_summary(args: argparse.Namespace) -> int:
     receipts = open_receipt_store(args.receipts, args.store_format).read_all()
     report = build_report(spec, receipts)
     scorecard = build_scorecard(spec.name, receipts)
-    summary = render_markdown_summary(report, scorecard)
+    summary = render_markdown_summary(report, scorecard, language=args.language)
     if args.output:
         output_path = Path(args.output)
         output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -122,6 +122,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Receipt store format",
     )
     summary.add_argument("--output", help="Write Markdown summary to this path")
+    summary.add_argument(
+        "--language",
+        choices=("en", "zh"),
+        default="en",
+        help="Summary language",
+    )
     summary.set_defaults(func=cmd_summary)
     return parser
 

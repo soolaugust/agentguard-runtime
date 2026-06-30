@@ -59,6 +59,28 @@ def test_scorecard_flags_review_heavy():
     assert scorecard.control_state == "review_heavy"
 
 
+def test_markdown_summary_zh_is_human_readable():
+    report = GovernanceReport(
+        agent="repo-agent",
+        alive=True,
+        value_state="measurable",
+        risk_state="approval_gated",
+        receipt_count=1,
+        approval_required_count=1,
+        blocked_count=0,
+        total_cost_usd=0.012,
+        evidence_score_avg=0.8,
+    )
+    scorecard = build_scorecard("repo-agent", [_receipt("pending_approval", cost=0.012)])
+
+    summary = render_markdown_summary(report, scorecard, language="zh")
+
+    assert "# AgentGuard 摘要报告 — repo-agent" in summary
+    assert "## 结论" in summary
+    assert "审批负担率" in summary
+    assert "审批负担偏高" in summary
+
+
 def test_markdown_summary_is_human_readable():
     report = GovernanceReport(
         agent="repo-agent",

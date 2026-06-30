@@ -38,7 +38,8 @@ agentguard scorecard \
 agentguard summary \
   --agent examples/agent.yaml \
   --receipts .agentguard/receipts.jsonl \
-  --output .agentguard/reports/example-summary.md
+  --language zh \
+  --output .agentguard/reports/example-summary.zh.md
 
 # Optional SQLite store
 agentguard check \
