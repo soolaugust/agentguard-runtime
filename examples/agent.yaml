@@ -1,0 +1,28 @@
+agent:
+  name: repo-maintainer-agent
+  owner: platform-team
+  purpose: Triage repository issues and prepare low-risk maintenance changes.
+  risk_level: medium
+  allowed_tools:
+    - github.search_issues
+    - github.comment_issue
+    - git.create_branch
+    - git.open_pr
+  denied_targets:
+    - "*secret*"
+    - "*credential*"
+    - "*billing*"
+    - "*payment*"
+    - "prod/*"
+  required_evidence: 2
+  cost_budget_usd: 0.25
+  mode_by_risk:
+    low: allow
+    medium: dry_run
+    high: require_approval
+    critical: block
+  success_metrics:
+    - accepted_action_rate
+    - blocked_risky_action_count
+    - cost_per_completed_task
+    - evidence_score_avg

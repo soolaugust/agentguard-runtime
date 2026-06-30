@@ -1,0 +1,21 @@
+{
+  "name": "github.comment_issue",
+  "target": "langchain-ai/langgraph#8026",
+  "args": {
+    "body": "This looks like a high-value approval-node pattern. AgentGuard would run this as dry-run unless evidence and policy allow it."
+  },
+  "evidence": [
+    {
+      "source": "github_issue",
+      "reference": "langchain-ai/langgraph#8026",
+      "quote": "Feature Request: Add a high-level ApprovalNode for Human-in-the-Loop workflows",
+      "confidence": 0.95
+    },
+    {
+      "source": "github_issue",
+      "reference": "langchain-ai/langgraph#8102",
+      "quote": "RFC: Pre-execution tool call interception hooks for policy enforcement",
+      "confidence": 0.9
+    }
+  ]
+}
