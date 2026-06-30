@@ -32,6 +32,9 @@ agentguard check \
 agentguard report \
   --agent examples/agent.yaml \
   --receipts .agentguard/receipts.jsonl
+agentguard scorecard \
+  --agent examples/agent.yaml \
+  --receipts .agentguard/receipts.jsonl
 
 # Optional SQLite store
 agentguard check \
@@ -104,6 +107,7 @@ AgentGuard Runtime is alpha software. It currently provides:
 - OpenAI/MCP-like tool-call conversion helper.
 - `spec/action_receipt.schema.json` for framework-neutral receipts.
 - JSONL and SQLite receipt stores.
+- Receipt-based metrics scorecard.
 - LangGraph-style pre-tool-call example.
 
 See `docs/architecture.md` for the runtime boundary, layer model, core objects, and long-term architecture. See `docs/metrics.md` for the measurement system that keeps the project tied to accepted value instead of activity. See `docs/stop-building-agents.md` for the project narrative.

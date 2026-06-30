@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentguard.dev/spec/outcome_event.schema.json",
+  "title": "AgentGuard Outcome Event",
+  "description": "A post-action outcome event for measuring agent value and rework.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id", "receipt_id", "outcome", "value_score", "rework_required", "created_at"],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 8, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$"},
+    "receipt_id": {"type": "string", "minLength": 8, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$"},
+    "outcome": {"type": "string", "enum": ["succeeded", "failed", "reverted", "corrected", "unknown"]},
+    "value_score": {"type": "number", "minimum": -1, "maximum": 1},
+    "rework_required": {"type": "boolean"},
+    "detail": {"type": "string", "maxLength": 4096},
+    "created_at": {"type": "string", "format": "date-time"}
+  }
+}

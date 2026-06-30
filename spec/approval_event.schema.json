@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentguard.dev/spec/approval_event.schema.json",
+  "title": "AgentGuard Approval Event",
+  "description": "A review event for an action receipt that required approval.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id", "receipt_id", "decision", "reviewer", "created_at"],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 8, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$"},
+    "receipt_id": {"type": "string", "minLength": 8, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$"},
+    "decision": {"type": "string", "enum": ["approved", "rejected", "expired"]},
+    "reviewer": {"type": "string", "minLength": 1, "maxLength": 256},
+    "reason": {"type": "string", "maxLength": 2048},
+    "created_at": {"type": "string", "format": "date-time"}
+  }
+}

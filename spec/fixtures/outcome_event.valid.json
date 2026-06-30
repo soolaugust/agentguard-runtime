@@ -1,0 +1,9 @@
+{
+  "event_id": "outcome-0001",
+  "receipt_id": "example-0001",
+  "outcome": "succeeded",
+  "value_score": 1.0,
+  "rework_required": false,
+  "detail": "The comment was accepted and no follow-up correction was needed.",
+  "created_at": "2026-06-30T01:00:00+00:00"
+}

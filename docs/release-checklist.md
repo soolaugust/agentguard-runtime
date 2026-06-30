@@ -24,8 +24,10 @@ python -m venv .venv
 .venv/bin/pytest
 .venv/bin/agentguard check --agent examples/agent.yaml --call examples/tool_call.json --receipts /tmp/agentguard-receipts.jsonl --cost 0.012
 .venv/bin/agentguard report --agent examples/agent.yaml --receipts /tmp/agentguard-receipts.jsonl
+.venv/bin/agentguard scorecard --agent examples/agent.yaml --receipts /tmp/agentguard-receipts.jsonl
 .venv/bin/agentguard check --agent examples/agent.yaml --call examples/tool_call.json --receipts /tmp/agentguard-receipts.sqlite --store-format sqlite --cost 0.012
 .venv/bin/agentguard report --agent examples/agent.yaml --receipts /tmp/agentguard-receipts.sqlite --store-format sqlite
+.venv/bin/agentguard scorecard --agent examples/agent.yaml --receipts /tmp/agentguard-receipts.sqlite --store-format sqlite
 ```
 
 ## First GitHub release goals

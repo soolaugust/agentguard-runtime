@@ -1,7 +1,13 @@
 """AgentGuard Runtime: reliability and governance primitives for AI agents."""
 
 from agentguard_runtime.adapters import GovernedToolRunner, from_openai_style_tool_call
-from agentguard_runtime.schema import validate_action_receipt, validate_governance_report
+from agentguard_runtime.metrics import MetricsScorecard, build_scorecard
+from agentguard_runtime.schema import (
+    validate_action_receipt,
+    validate_approval_event,
+    validate_governance_report,
+    validate_outcome_event,
+)
 from agentguard_runtime.stores import JsonlReceiptStore, SQLiteReceiptStore, open_receipt_store
 from agentguard_runtime.core import (
     AgentSpec,
@@ -22,8 +28,12 @@ __all__ = [
     "JsonlReceiptStore",
     "SQLiteReceiptStore",
     "open_receipt_store",
+    "MetricsScorecard",
+    "build_scorecard",
     "validate_action_receipt",
+    "validate_approval_event",
     "validate_governance_report",
+    "validate_outcome_event",
     "AgentSpec",
     "Evidence",
     "ExecutionReceipt",

@@ -13,6 +13,7 @@ from agentguard_runtime.core import (
     load_agent_spec,
     make_receipt,
 )
+from agentguard_runtime.metrics import build_scorecard
 from agentguard_runtime.stores import open_receipt_store
 
 
@@ -46,6 +47,14 @@ def cmd_report(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_scorecard(args: argparse.Namespace) -> int:
+    spec = load_agent_spec(args.agent)
+    receipts = open_receipt_store(args.receipts, args.store_format).read_all()
+    scorecard = build_scorecard(spec.name, receipts)
+    print(json.dumps(scorecard.to_dict(), ensure_ascii=False, indent=2))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="agentguard",
@@ -76,6 +85,17 @@ def build_parser() -> argparse.ArgumentParser:
         help="Receipt store format",
     )
     report.set_defaults(func=cmd_report)
+
+    scorecard = sub.add_parser("scorecard", help="Compute v0.1 control metrics from receipts.")
+    scorecard.add_argument("--agent", required=True, help="Path to agent.yaml")
+    scorecard.add_argument("--receipts", required=True, help="Receipt store")
+    scorecard.add_argument(
+        "--store-format",
+        choices=("jsonl", "sqlite"),
+        default="jsonl",
+        help="Receipt store format",
+    )
+    scorecard.set_defaults(func=cmd_scorecard)
     return parser
 
 

@@ -227,7 +227,7 @@ The current receipt schema supports these metrics directly:
 | `evidence_quality_avg` | mean of `evidence_score` |
 | `risk_state` | receipt status distribution |
 
-The v0.1 scorecard is intentionally limited. It proves the runtime is controlling and recording actions, not that the actions created business value.
+The v0.1 scorecard is intentionally limited. It proves the runtime is controlling and recording actions, not that the actions created business value. It is available via `agentguard scorecard --agent examples/agent.yaml --receipts .agentguard/receipts.jsonl` and supports both JSONL and SQLite stores.
 
 ## v0.2 required events
 

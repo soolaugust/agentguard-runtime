@@ -11,6 +11,7 @@ AgentGuard Runtime should grow from a small action gate into an operations layer
 - JSONL and SQLite receipts and governance report.
 - Action receipt and governance report schemas.
 - Metrics system for control/value scorecards.
+- Receipt-based scorecard CLI.
 
 ## v0.2 — Framework adapters
 
@@ -31,6 +32,7 @@ AgentGuard Runtime should grow from a small action gate into an operations layer
 - Cost trend and budget burn rate.
 - Approval rate and blocked-action rate.
 - Evidence quality trend.
+- ApprovalEvent and OutcomeEvent ingestion.
 - Value metrics provided by caller.
 
 ## v1.0 — Stable integration contract

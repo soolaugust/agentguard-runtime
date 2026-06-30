@@ -84,6 +84,16 @@ def validate_governance_report(report: dict[str, Any], schema_path: str | Path |
     return validate_json_schema(report, load_json(schema_file))
 
 
+def validate_approval_event(event: dict[str, Any], schema_path: str | Path | None = None) -> list[str]:
+    schema_file = Path(schema_path) if schema_path else _default_schema_path("approval_event.schema.json")
+    return validate_json_schema(event, load_json(schema_file))
+
+
+def validate_outcome_event(event: dict[str, Any], schema_path: str | Path | None = None) -> list[str]:
+    schema_file = Path(schema_path) if schema_path else _default_schema_path("outcome_event.schema.json")
+    return validate_json_schema(event, load_json(schema_file))
+
+
 def require_valid_action_receipt(receipt: dict[str, Any], schema_path: str | Path | None = None) -> None:
     errors = validate_action_receipt(receipt, schema_path)
     if errors:

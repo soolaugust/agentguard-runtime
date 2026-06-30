@@ -1,11 +1,19 @@
 from dataclasses import asdict
 
 from agentguard_runtime.core import AgentSpec, Evidence, ToolCall, assess_tool_call, build_report, make_receipt
-from agentguard_runtime.schema import load_json, validate_action_receipt, validate_governance_report
+from agentguard_runtime.schema import (
+    load_json,
+    validate_action_receipt,
+    validate_approval_event,
+    validate_governance_report,
+    validate_outcome_event,
+)
 
 
 RECEIPT_SCHEMA = "spec/action_receipt.schema.json"
 REPORT_SCHEMA = "spec/governance_report.schema.json"
+APPROVAL_SCHEMA = "spec/approval_event.schema.json"
+OUTCOME_SCHEMA = "spec/outcome_event.schema.json"
 
 
 def test_valid_action_receipt_fixture_matches_schema():
@@ -55,3 +63,15 @@ def test_generated_governance_report_matches_schema():
     report = build_report(spec, [receipt])
 
     assert validate_governance_report(asdict(report), REPORT_SCHEMA) == []
+
+
+def test_valid_approval_event_fixture_matches_schema():
+    event = load_json("spec/fixtures/approval_event.valid.json")
+
+    assert validate_approval_event(event, APPROVAL_SCHEMA) == []
+
+
+def test_valid_outcome_event_fixture_matches_schema():
+    event = load_json("spec/fixtures/outcome_event.valid.json")
+
+    assert validate_outcome_event(event, OUTCOME_SCHEMA) == []

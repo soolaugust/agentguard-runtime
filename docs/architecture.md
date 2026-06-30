@@ -209,6 +209,8 @@ spec/
   tool_call.schema.json
   action_receipt.schema.json
   governance_report.schema.json
+  approval_event.schema.json
+  outcome_event.schema.json
 adapters/
   langgraph
   litellm
