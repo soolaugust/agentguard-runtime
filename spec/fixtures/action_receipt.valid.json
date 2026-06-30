@@ -1,0 +1,12 @@
+{
+  "receipt_id": "example-0001",
+  "agent": "repo-maintainer-agent",
+  "tool": "github.comment_issue",
+  "target": "owner/repo#123",
+  "mode": "require_approval",
+  "status": "pending_approval",
+  "reasons": ["policy_passed"],
+  "evidence_score": 0.82,
+  "cost_usd": 0.012,
+  "created_at": "2026-06-30T00:00:00+00:00"
+}

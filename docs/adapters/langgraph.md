@@ -4,6 +4,8 @@ AgentGuard does not replace LangGraph. It wraps the tool execution boundary.
 
 ## Integration point
 
+See `examples/langgraph_pre_tool.py` for an executable no-hard-dependency example.
+
 Place AgentGuard immediately before a node executes a tool call:
 
 ```python

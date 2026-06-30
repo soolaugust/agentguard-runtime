@@ -12,9 +12,8 @@ from agentguard_runtime.core import (
     build_report,
     load_agent_spec,
     make_receipt,
-    read_receipts,
-    record_receipt,
 )
+from agentguard_runtime.stores import open_receipt_store
 
 
 def _load_call(path: str | Path) -> ToolCall:
@@ -34,14 +33,15 @@ def cmd_check(args: argparse.Namespace) -> int:
     decision = assess_tool_call(spec, call)
     receipt = make_receipt(spec, call, decision, cost_usd=args.cost)
     if args.receipts:
-        record_receipt(receipt, args.receipts)
+        open_receipt_store(args.receipts, args.store_format).append(receipt)
     print(json.dumps({"decision": decision.__dict__, "receipt": receipt.__dict__}, ensure_ascii=False, indent=2))
     return 2 if decision.mode == "block" else 0
 
 
 def cmd_report(args: argparse.Namespace) -> int:
     spec = load_agent_spec(args.agent)
-    report = build_report(spec, read_receipts(args.receipts))
+    receipts = open_receipt_store(args.receipts, args.store_format).read_all()
+    report = build_report(spec, receipts)
     print(json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
     return 0
 
@@ -56,13 +56,25 @@ def build_parser() -> argparse.ArgumentParser:
     check = sub.add_parser("check", help="Assess a tool call and optionally write a receipt.")
     check.add_argument("--agent", required=True, help="Path to agent.yaml")
     check.add_argument("--call", required=True, help="Path to a tool call JSON file")
-    check.add_argument("--receipts", help="JSONL receipt store to append to")
+    check.add_argument("--receipts", help="Receipt store to append to")
+    check.add_argument(
+        "--store-format",
+        choices=("jsonl", "sqlite"),
+        default="jsonl",
+        help="Receipt store format",
+    )
     check.add_argument("--cost", type=float, default=0.0, help="Observed cost for this call")
     check.set_defaults(func=cmd_check)
 
     report = sub.add_parser("report", help="Summarize receipts into an agent governance report.")
     report.add_argument("--agent", required=True, help="Path to agent.yaml")
-    report.add_argument("--receipts", required=True, help="JSONL receipt store")
+    report.add_argument("--receipts", required=True, help="Receipt store")
+    report.add_argument(
+        "--store-format",
+        choices=("jsonl", "sqlite"),
+        default="jsonl",
+        help="Receipt store format",
+    )
     report.set_defaults(func=cmd_report)
     return parser
 

@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentguard.dev/spec/action_receipt.schema.json",
+  "title": "AgentGuard Action Receipt",
+  "description": "A framework-neutral receipt for a governed AI agent action decision.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "receipt_id",
+    "agent",
+    "tool",
+    "target",
+    "mode",
+    "status",
+    "reasons",
+    "evidence_score",
+    "cost_usd",
+    "created_at"
+  ],
+  "properties": {
+    "receipt_id": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._:-]+$"
+    },
+    "agent": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "tool": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "target": {
+      "type": "string",
+      "maxLength": 4096
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["allow", "dry_run", "require_approval", "block"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["executed", "dry_run", "pending_approval", "blocked", "failed"]
+    },
+    "reasons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 512
+      }
+    },
+    "evidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "cost_usd": {
+      "type": "number",
+      "minimum": 0
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

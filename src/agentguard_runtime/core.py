@@ -230,24 +230,17 @@ def make_receipt(spec: AgentSpec, call: ToolCall, decision: GuardDecision, cost_
 
 
 def record_receipt(receipt: ExecutionReceipt, store: str | Path) -> Path:
+    from agentguard_runtime.stores import open_receipt_store
+
     store_path = Path(store)
-    store_path.parent.mkdir(parents=True, exist_ok=True)
-    with store_path.open("a", encoding="utf-8") as handle:
-        handle.write(receipt.to_json() + "\n")
+    open_receipt_store(store_path).append(receipt)
     return store_path
 
 
 def read_receipts(store: str | Path) -> list[ExecutionReceipt]:
-    store_path = Path(store)
-    if not store_path.exists():
-        return []
-    receipts = []
-    for line in store_path.read_text(encoding="utf-8").splitlines():
-        if not line.strip():
-            continue
-        data = json.loads(line)
-        receipts.append(ExecutionReceipt(**data))
-    return receipts
+    from agentguard_runtime.stores import open_receipt_store
+
+    return open_receipt_store(store).read_all()
 
 
 def build_report(spec: AgentSpec, receipts: list[ExecutionReceipt]) -> GovernanceReport:

@@ -9,6 +9,8 @@ Use this checklist before publishing AgentGuard Runtime to GitHub or PyPI.
 - [ ] `CONTRIBUTING.md` explains the project boundary.
 - [ ] `.github/workflows/ci.yml` runs tests and CLI smoke checks.
 - [ ] `docs/research.md` cites real public demand signals.
+- [ ] `docs/architecture.md` defines the runtime boundary and core objects.
+- [ ] `spec/action_receipt.schema.json` has valid and invalid fixtures.
 - [ ] Private dogfood has been run against non-toy local actions, but private scenarios are not committed.
 - [ ] No private paths, tokens, company names, or local-only assumptions remain.
 
@@ -20,6 +22,8 @@ python -m venv .venv
 .venv/bin/pytest
 .venv/bin/agentguard check --agent examples/agent.yaml --call examples/tool_call.json --receipts /tmp/agentguard-receipts.jsonl --cost 0.012
 .venv/bin/agentguard report --agent examples/agent.yaml --receipts /tmp/agentguard-receipts.jsonl
+.venv/bin/agentguard check --agent examples/agent.yaml --call examples/tool_call.json --receipts /tmp/agentguard-receipts.sqlite --store-format sqlite --cost 0.012
+.venv/bin/agentguard report --agent examples/agent.yaml --receipts /tmp/agentguard-receipts.sqlite --store-format sqlite
 ```
 
 ## First GitHub release goals

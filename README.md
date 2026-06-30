@@ -32,6 +32,13 @@ agentguard check \
 agentguard report \
   --agent examples/agent.yaml \
   --receipts .agentguard/receipts.jsonl
+
+# Optional SQLite store
+agentguard check \
+  --agent examples/agent.yaml \
+  --call examples/tool_call.json \
+  --receipts .agentguard/receipts.sqlite \
+  --store-format sqlite
 ```
 
 Expected behavior: the sample GitHub comment is classified as a mutating action and runs as `require_approval`, while producing a JSON receipt and report.
@@ -95,13 +102,15 @@ AgentGuard Runtime is alpha software. It currently provides:
 - Receipt-based governance reports.
 - Framework-neutral `GovernedToolRunner` wrapper.
 - OpenAI/MCP-like tool-call conversion helper.
+- `spec/action_receipt.schema.json` for framework-neutral receipts.
+- JSONL and SQLite receipt stores.
+- LangGraph-style pre-tool-call example.
 
-See `docs/architecture.md` for the runtime boundary, layer model, core objects, and long-term architecture.
+See `docs/architecture.md` for the runtime boundary, layer model, core objects, and long-term architecture. See `docs/stop-building-agents.md` for the project narrative.
 
 Planned next steps:
 
 - OpenTelemetry span attributes for governed tool calls.
-- LangGraph middleware example.
 - LiteLLM proxy callback example.
 - Claude Code / Codex CLI hook examples.
 - Cryptographic receipt signing.

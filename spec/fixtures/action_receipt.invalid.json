@@ -1,0 +1,12 @@
+{
+  "receipt_id": "bad receipt id with spaces",
+  "agent": "repo-maintainer-agent",
+  "tool": "github.comment_issue",
+  "target": "owner/repo#123",
+  "mode": "execute_now",
+  "status": "done",
+  "reasons": [],
+  "evidence_score": 1.5,
+  "cost_usd": -1,
+  "created_at": "not-a-date"
+}
