@@ -96,6 +96,8 @@ AgentGuard Runtime is alpha software. It currently provides:
 - Framework-neutral `GovernedToolRunner` wrapper.
 - OpenAI/MCP-like tool-call conversion helper.
 
+See `docs/architecture.md` for the runtime boundary, layer model, core objects, and long-term architecture.
+
 Planned next steps:
 
 - OpenTelemetry span attributes for governed tool calls.
